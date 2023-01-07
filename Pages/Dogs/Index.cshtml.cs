@@ -19,16 +19,28 @@ namespace Dog_Grooming_Salon.Pages.Dogs
             _context = context;
         }
 
-        public IList<Dog> Dog { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public IList<Dog> Dog { get; set; } = default!;
+        public DogData DogD { get; set; }
+        public int DogID { get; set; }
+        public int GenderID { get; set; }
+        public async Task OnGetAsync(int? id, int? genderID)
         {
-            if (_context.Dog != null)
+            DogD = new DogData();
+            DogD.Dogs = await _context.Dog
+            .Include(b => b.Owner)
+            .Include(b => b.DogGenders)
+            .ThenInclude(b => b.Gender)
+            .AsNoTracking()
+            .OrderBy(b => b.Name)
+            .ToListAsync();
+            if (id != null)
             {
-                Dog = await _context.Dog
-                    .Include(b => b.Owner)
-                    .ToListAsync();
+                DogID = id.Value;
+                Dog dog = DogD.Dogs
+                .Where(i => i.ID == id.Value).Single();
+                DogD.Genders = dog.DogGenders.Select(s => s.Gender);
             }
         }
     }
 }
+       

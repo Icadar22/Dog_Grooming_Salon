@@ -11,7 +11,7 @@ using Dog_Grooming_Salon.Models;
 
 namespace Dog_Grooming_Salon.Pages.Dogs
 {
-    public class EditModel : PageModel
+    public class EditModel : DogGenderModel
     {
         private readonly Dog_Grooming_Salon.Data.Dog_Grooming_SalonContext _context;
 
@@ -30,12 +30,20 @@ namespace Dog_Grooming_Salon.Pages.Dogs
                 return NotFound();
             }
 
-            var dog =  await _context.Dog.FirstOrDefaultAsync(m => m.ID == id);
-            if (dog == null)
+            Dog = await _context.Dog
+.Include(b => b.Owner)
+.Include(b => b.DogGenders).ThenInclude(b => b.Gender)
+.AsNoTracking()
+.FirstOrDefaultAsync(m => m.ID == id);
+
+
+            if (Dog == null)
             {
                 return NotFound();
             }
-            Dog = dog;
+
+            PopulateAssignedGenderData(_context, Dog);
+
 
             ViewData["OwnerID"] = new SelectList(_context.Set<Owner>(), "ID","FullName");
 
@@ -44,37 +52,37 @@ namespace Dog_Grooming_Salon.Pages.Dogs
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[]
+selectedGenders)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
+              {
+                 return NotFound();
+              }
+
+            var dogToUpdate = await _context.Dog
+.Include(i => i.Owner)
+.Include(i => i.DogGenders)
+.ThenInclude(i => i.Gender)
+.FirstOrDefaultAsync(s => s.ID == id);
+            if (dogToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Dog).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<Dog>(
+dogToUpdate,
+"Dog",
+i => i.Name, i => i.Owner,
+i => i.Age))
             {
+                UpdateDogGenders(_context, selectedGenders, dogToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DogExists(Dog.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool DogExists(int id)
-        {
-          return _context.Dog.Any(e => e.ID == id);
+            UpdateDogGenders(_context, selectedGenders, dogToUpdate);
+            PopulateAssignedGenderData(_context, dogToUpdate);
+            return Page();
         }
     }
 }
