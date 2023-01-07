@@ -46,6 +46,8 @@ namespace Dog_Grooming_Salon.Pages.Dogs
 
 
             ViewData["OwnerID"] = new SelectList(_context.Set<Owner>(), "ID","FullName");
+            ViewData["BreedID"] = new SelectList(_context.Set<Breed>(), "ID", "BreedName");
+            ViewData["ServiceID"] = new SelectList(_context.Set<Service>(), "ID", "ServiceName");
 
             return Page();
         }
@@ -73,7 +75,7 @@ selectedGenders)
             if (await TryUpdateModelAsync<Dog>(
 dogToUpdate,
 "Dog",
-i => i.Name, i => i.Owner,
+i => i.Name, i => i.Owner, i => i.Breed, i => i.Service,
 i => i.Age, i => i.AppointmentDate, i => i.AppointmentHour))
             {
                 UpdateDogGenders(_context, selectedGenders, dogToUpdate);

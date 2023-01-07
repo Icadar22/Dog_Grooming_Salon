@@ -20,6 +20,12 @@ namespace Dog_Grooming_Salon.Models
 
         [DataType(DataType.Time)]
         public DateTime AppointmentHour { get; set; }
+
+        public int? BreedID { get; set; }
+        public Breed? Breed { get; set; }
+
+        public int? ServiceID { get; set; }
+        public Service? Service { get; set; }
         public ICollection<DogGender>? DogGenders { get; set; }
 
         

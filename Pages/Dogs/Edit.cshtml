@@ -41,6 +41,18 @@
                 <span asp-validation-for="Dog.AppointmentHour" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Dog.BreedID" class="control-label">Breed Name</label>
+                <select asp-for="Dog.BreedID" class="form-control" asp-items="ViewBag.BreedID">
+                </select>
+                <span asp-validation-for="Dog.BreedID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dog.ServiceID" class="control-label">Service Name</label>
+                <select asp-for="Dog.ServiceID" class="form-control" asp-items="ViewBag.ServiceID">
+                </select>
+                <span asp-validation-for="Dog.ServiceID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
  <div class="table">
  <table>
  <tr>

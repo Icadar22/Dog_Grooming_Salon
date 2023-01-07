@@ -19,5 +19,9 @@ namespace Dog_Grooming_Salon.Data
         public DbSet<Dog_Grooming_Salon.Models.Owner> Owner { get; set; }
 
         public DbSet<Dog_Grooming_Salon.Models.Gender> Gender { get; set; }
+
+        public DbSet<Dog_Grooming_Salon.Models.Breed> Breed { get; set; }
+
+        public DbSet<Dog_Grooming_Salon.Models.Service> Service { get; set; }
     }
 }

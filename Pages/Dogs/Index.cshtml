@@ -10,6 +10,16 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+<div class="form-actions no-color">
+<p>
+Find by Owner / Dog Name:
+<input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -34,6 +44,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dog[0].AppointmentHour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dog[0].Breed.BreedName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dog[0].Service.ServiceName)
             </th>
             <th></th>
         </tr>
@@ -69,6 +85,12 @@
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.AppointmentHour)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Breed.BreedName)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Service.ServiceName)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

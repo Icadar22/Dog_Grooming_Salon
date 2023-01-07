@@ -28,21 +28,37 @@ namespace Dog_Grooming_Salon.Pages.Dogs
         public string AppointmentDateSort { get; set; }
         public string NameSort { get; set; }
 
-        public async Task OnGetAsync(int? id, int? genderID, string sortOrder)
+        public string CurrentFilter { get; set; }
+
+        public async Task OnGetAsync(int? id, int? genderID, string sortOrder, string
+searchString)
         {
             DogD = new DogData();
 
             AppointmentDateSort = String.IsNullOrEmpty(sortOrder) ? "appointmentdate_desc" : "";
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
+            CurrentFilter = searchString;
+
             DogD.Dogs = await _context.Dog
             .Include(b => b.Owner)
+            .Include(b => b.Service)
+            .Include(b => b.Breed)
             .Include(b => b.DogGenders)
             .ThenInclude(b => b.Gender)
             .AsNoTracking()
             .OrderBy(b => b.Name)
             .ToListAsync();
-            if (id != null)
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                DogD.Dogs = DogD.Dogs.Where(s => s.Owner.FirstName.Contains(searchString)
+                || s.Owner.LastName.Contains(searchString)
+                || s.Name.Contains(searchString));
+
+            }
+
+                if (id != null)
             {
                 DogID = id.Value;
                 Dog dog = DogD.Dogs

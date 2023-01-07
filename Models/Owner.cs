@@ -17,6 +17,8 @@ namespace Dog_Grooming_Salon.Models
                 return FirstName + " " + LastName;
             }
         }
+        [RegularExpression(@"^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Telefonul trebuie sa fie de forma '0722-123-123' sau'0722.123.123' sau '0722 123 123'")]
+        public string? Phone { get; set; }
         public ICollection<Dog>? Dogs { get; set; }
     }
 }

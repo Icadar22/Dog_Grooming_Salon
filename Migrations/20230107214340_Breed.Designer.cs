@@ -4,6 +4,7 @@ using Dog_Grooming_Salon.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dog_Grooming_Salon.Migrations
 {
     [DbContext(typeof(Dog_Grooming_SalonContext))]
-    partial class Dog_Grooming_SalonContextModelSnapshot : ModelSnapshot
+    [Migration("20230107214340_Breed")]
+    partial class Breed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace Dog_Grooming_Salon.Migrations
                     b.Property<DateTime>("AppointmentHour")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("BreedID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -67,16 +66,9 @@ namespace Dog_Grooming_Salon.Migrations
                     b.Property<int?>("OwnerID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ServiceID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("BreedID");
-
                     b.HasIndex("OwnerID");
-
-                    b.HasIndex("ServiceID");
 
                     b.ToTable("Dog");
                 });
@@ -137,53 +129,18 @@ namespace Dog_Grooming_Salon.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
                     b.ToTable("Owner");
                 });
 
-            modelBuilder.Entity("Dog_Grooming_Salon.Models.Service", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(6,2)");
-
-                    b.Property<string>("ServiceName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Service");
-                });
-
             modelBuilder.Entity("Dog_Grooming_Salon.Models.Dog", b =>
                 {
-                    b.HasOne("Dog_Grooming_Salon.Models.Breed", "Breed")
-                        .WithMany("Dogs")
-                        .HasForeignKey("BreedID");
-
                     b.HasOne("Dog_Grooming_Salon.Models.Owner", "Owner")
                         .WithMany("Dogs")
                         .HasForeignKey("OwnerID");
 
-                    b.HasOne("Dog_Grooming_Salon.Models.Service", "Service")
-                        .WithMany("Dogs")
-                        .HasForeignKey("ServiceID");
-
-                    b.Navigation("Breed");
-
                     b.Navigation("Owner");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Dog_Grooming_Salon.Models.DogGender", b =>
@@ -205,11 +162,6 @@ namespace Dog_Grooming_Salon.Migrations
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("Dog_Grooming_Salon.Models.Breed", b =>
-                {
-                    b.Navigation("Dogs");
-                });
-
             modelBuilder.Entity("Dog_Grooming_Salon.Models.Dog", b =>
                 {
                     b.Navigation("DogGenders");
@@ -221,11 +173,6 @@ namespace Dog_Grooming_Salon.Migrations
                 });
 
             modelBuilder.Entity("Dog_Grooming_Salon.Models.Owner", b =>
-                {
-                    b.Navigation("Dogs");
-                });
-
-            modelBuilder.Entity("Dog_Grooming_Salon.Models.Service", b =>
                 {
                     b.Navigation("Dogs");
                 });

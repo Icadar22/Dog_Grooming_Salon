@@ -24,6 +24,8 @@ namespace Dog_Grooming_Salon.Pages.Dogs
         public IActionResult OnGet()
         {
             ViewData["OwnerID"] = new SelectList(_context.Set<Owner>(), "ID", "FullName");
+            ViewData["BreedID"] = new SelectList(_context.Set<Breed>(), "ID", "BreedName");
+            ViewData["ServiceID"] = new SelectList(_context.Set<Service>(), "ID", "ServiceName");
 
             var dog = new Dog();
             dog.DogGenders = new List<DogGender>();
