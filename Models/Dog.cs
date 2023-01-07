@@ -15,6 +15,13 @@ namespace Dog_Grooming_Salon.Models
         public int? OwnerID { get; set; }
         public Owner? Owner { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime AppointmentDate { get; set; }
+
+        [DataType(DataType.Time)]
+        public DateTime AppointmentHour { get; set; }
         public ICollection<DogGender>? DogGenders { get; set; }
+
+        
     }
 }

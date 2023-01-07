@@ -74,7 +74,7 @@ selectedGenders)
 dogToUpdate,
 "Dog",
 i => i.Name, i => i.Owner,
-i => i.Age))
+i => i.Age, i => i.AppointmentDate, i => i.AppointmentHour))
             {
                 UpdateDogGenders(_context, selectedGenders, dogToUpdate);
                 await _context.SaveChangesAsync();

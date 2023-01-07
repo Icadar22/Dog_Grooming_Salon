@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Dog_Grooming_Salon.Data;
 using Dog_Grooming_Salon.Models;
+using Microsoft.Data.SqlClient;
 
 namespace Dog_Grooming_Salon.Pages.Dogs
 {
@@ -23,9 +24,17 @@ namespace Dog_Grooming_Salon.Pages.Dogs
         public DogData DogD { get; set; }
         public int DogID { get; set; }
         public int GenderID { get; set; }
-        public async Task OnGetAsync(int? id, int? genderID)
+
+        public string AppointmentDateSort { get; set; }
+        public string NameSort { get; set; }
+
+        public async Task OnGetAsync(int? id, int? genderID, string sortOrder)
         {
             DogD = new DogData();
+
+            AppointmentDateSort = String.IsNullOrEmpty(sortOrder) ? "appointmentdate_desc" : "";
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
             DogD.Dogs = await _context.Dog
             .Include(b => b.Owner)
             .Include(b => b.DogGenders)
@@ -39,6 +48,18 @@ namespace Dog_Grooming_Salon.Pages.Dogs
                 Dog dog = DogD.Dogs
                 .Where(i => i.ID == id.Value).Single();
                 DogD.Genders = dog.DogGenders.Select(s => s.Gender);
+            }
+
+            switch (sortOrder)
+            {
+                case "appointmentdate_desc":
+                    DogD.Dogs = DogD.Dogs.OrderByDescending(s =>
+                    s.AppointmentDate);
+                    break;
+                case "name_desc":
+                    DogD.Dogs = DogD.Dogs.OrderByDescending(s =>
+                    s.Name);
+                    break;
             }
         }
     }

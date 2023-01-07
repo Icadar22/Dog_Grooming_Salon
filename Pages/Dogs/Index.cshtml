@@ -14,7 +14,9 @@
     <thead>
         <tr>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.AppointmentDateSort">
                 @Html.DisplayNameFor(model => model.Dog[0].Name)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dog[0].Age)
@@ -24,6 +26,14 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dog[0].DogGenders)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.AppointmentDateSort">
+                @Html.DisplayNameFor(model => model.Dog[0].AppointmentDate)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dog[0].AppointmentHour)
             </th>
             <th></th>
         </tr>
@@ -53,6 +63,12 @@
                             @gender.Gender.ID @: @gender.Gender.GenderName <br />
                         }
                     }
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentHour)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

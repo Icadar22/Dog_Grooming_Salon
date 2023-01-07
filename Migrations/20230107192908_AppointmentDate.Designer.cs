@@ -4,6 +4,7 @@ using Dog_Grooming_Salon.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dog_Grooming_Salon.Migrations
 {
     [DbContext(typeof(Dog_Grooming_SalonContext))]
-    partial class Dog_Grooming_SalonContextModelSnapshot : ModelSnapshot
+    [Migration("20230107192908_AppointmentDate")]
+    partial class AppointmentDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +37,6 @@ namespace Dog_Grooming_Salon.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("AppointmentHour")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
