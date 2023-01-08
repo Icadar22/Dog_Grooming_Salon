@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Dog_Grooming_Salon.Data;
 using Dog_Grooming_Salon.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Dog_Grooming_Salon.Pages.Dogs
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly Dog_Grooming_Salon.Data.Dog_Grooming_SalonContext _context;

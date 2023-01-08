@@ -9,9 +9,12 @@ using Dog_Grooming_Salon.Data;
 using Dog_Grooming_Salon.Models;
 using System.Security.Policy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Dog_Grooming_Salon.Pages.Dogs
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : DogGenderModel
     {
         private readonly Dog_Grooming_Salon.Data.Dog_Grooming_SalonContext _context;

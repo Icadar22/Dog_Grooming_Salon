@@ -13,6 +13,7 @@ namespace Dog_Grooming_Salon.Models
         public string ServiceName { get; set; }
 
         [Column(TypeName = "decimal(6, 2)")]
+        [Range(0.01, 500)]
         public decimal Price { get; set; }
 
         public ICollection<Dog>? Dogs { get; set; }

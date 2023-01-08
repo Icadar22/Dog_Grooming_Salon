@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Dog_Grooming_Salon.Data;
 using Dog_Grooming_Salon.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Dog_Grooming_Salon.Pages.Services
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly Dog_Grooming_Salon.Data.Dog_Grooming_SalonContext _context;
