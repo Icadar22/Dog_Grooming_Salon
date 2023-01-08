@@ -1,12 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Dog_Grooming_Salon.Data;
+using Microsoft.AspNetCore.Identity;
+using Dog_Grooming_Salon.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<Dog_Grooming_SalonContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Dog_Grooming_SalonContext") ?? throw new InvalidOperationException("Connection string 'Dog_Grooming_SalonContext' not found.")));
+
+builder.Services.AddDbContext<LibraryIdentityContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("Dog_Grooming_SalonContext") ?? throw new InvalidOperationException("Connectionstring 'Dog_Grooming_SalonContext' not found.")));
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+options.SignIn.RequireConfirmedAccount = true)
+.AddEntityFrameworkStores<LibraryIdentityContext>();
+
 
 var app = builder.Build();
 
@@ -22,6 +32,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
 
